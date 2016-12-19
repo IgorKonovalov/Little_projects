@@ -39,14 +39,21 @@ let green = 0;
 let blue = 255;
 let color = "rgb(" + red + ", " + green + ", " + blue + ")";
 
-// score
+// score and lives
 
 let score = 0;
+let lives = 3;
 
 function drawScore() {
   ctx.font = "16px Arial";
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Score: " + score, 8, 20);
+}
+
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
 function getRandomColor() {
@@ -59,8 +66,8 @@ function getRandomColor() {
 }
 
 function drawBricks() {
-  for(c=0; c < brickColumnCount; c++) {
-    for(r=0; r < brickRowCount; r++) {
+  for(c = 0; c < brickColumnCount; c++) {
+    for(r = 0; r < brickRowCount; r++) {
       if (bricks[c][r].status == 1) {
         let brickX = ( c * (brickWidth + brickPadding)) + brickOffsetLeft;
         let brickY = ( r * (brickHeight + brickPadding)) + brickOffsetTop;
@@ -77,14 +84,19 @@ function drawBricks() {
 }
 
 function collisionDetection() {
-  for(c=0; c < brickColumnCount; c++) {
-    for(r=0; r < brickRowCount; r++) {
+  for(c = 0; c < brickColumnCount; c++) {
+    for(r = 0; r < brickRowCount; r++) {
       let b = bricks[c][r];
       if(b.status == 1) {
         if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
           dy = -dy;
           b.status = 0;
           getRandomColor();
+          score++;
+          if(score == brickRowCount*brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS! " + score);
+            document.location.reload();
+          }
         }
       }
     }
@@ -115,6 +127,8 @@ function draw() {
   drawPaddle();
   drawBricks();
   collisionDetection();
+  drawScore();
+  drawLives();
   x += dx;
   y += dy;
   if (!gameover) {
@@ -136,12 +150,22 @@ function draw() {
         dy = -dy - 0.1;
       }
       else {
-        alert("GAME OVER");
-        gameover = true;
-        document.location.reload();
+        lives--;
+        if(!lives) {
+          alert("GAME OVER");
+          document.location.reload();
+        }
+        else {
+          x = canvas.width/2;
+          y = canvas.height-30;
+          dx = 2;
+          dy = -2;
+          paddleX = (canvas.width-paddleWidth)/2;
+        }
       }
     }
   }
+  requestAnimationFrame(draw);
 }
 
 function keyDownHandler(e) {
@@ -162,7 +186,15 @@ function keyUpHandler(e) {
   }
 }
 
+function mouseMoveHandler(e) {
+    let relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth/2;
+    }
+}
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
 
-setInterval(draw, 10);
+draw();
