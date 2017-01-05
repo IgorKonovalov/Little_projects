@@ -95,12 +95,21 @@ function drawGrid() { // рисуем решетку
   cx.stroke();
 }
 
+let step = 0;
+
+function drawStep() {
+  cx.font = "16px Arial";
+  cx.fillStyle = "#000";
+  cx.fillText("Step: " + step, 3, 15);
+}
+
 
 function updateField() {
   cx.clearRect(0, 0, cx.canvas.width, cx.canvas.height);
   drawBoxes(boxes);
   drawGrid();
-  console.log("обновляю");
+  drawStep();
+  // console.log("обновляю");
 }
 
 // логика
@@ -270,12 +279,16 @@ function isAlive(boxes, column, row) {
 
 }
 
+// рисуем количество шагов
+
+
 // кнопки
 
 const bNext = document.getElementById("step");
 bNext.addEventListener("click", function () {
   getNextStep(boxes)
   boxCopy(boxes, boxesNextStep);
+  step++;
   updateField();
   cleanNextStep(boxesNextStep);
 });
@@ -288,19 +301,23 @@ bRandom.addEventListener("click", function () {
 
 const bStart = document.getElementById("start");
 let isTimerOn = false;
+
 bStart.addEventListener("click", function () {
   if (!isTimerOn) {
     let speedValue = document.getElementById("speed").value;
     timer = setInterval(function() {
       getNextStep(boxes)
       boxCopy(boxes, boxesNextStep);
+      step++;
       updateField();
       cleanNextStep(boxesNextStep);
     }, speedValue * 100);
     isTimerOn = true;
+    return;
   } else {
     clearInterval(timer);
     isTimerOn = false;
+    return;
   }
 })
 
@@ -310,13 +327,14 @@ bPause.addEventListener("click", function () {
   console.log(timer);
   clearInterval(timer);
   isTimerOn = false;
-  }
+  } else return;
 })
 
 const bClear = document.getElementById("clear");
 bClear.addEventListener("click", function () {
+  step = 0;
   cleanNextStep(boxesNextStep);
-  boxCopy(boxes, boxesNextStep);
+  cleanNextStep(boxes);
   updateField();
   clearInterval(timer);
   isTimerOn = false;
