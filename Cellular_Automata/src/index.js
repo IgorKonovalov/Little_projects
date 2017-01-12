@@ -15,6 +15,8 @@ for (let row = 0; row < rowCount; row++) {
   }
 }
 
+// функции для задания начального состояния
+
 function setRandomRow(row) {
   row.forEach(cell => {cell.status = Math.round(Math.random());});
 }
@@ -23,6 +25,8 @@ function setOneCellRow(row) {
   let posX = Math.round(columnCount / 2);
   row[posX].status = 1;
 }
+
+// рисование
 
 function drawRow(index) {
   cells[index].forEach(function(cell, column) {
@@ -38,8 +42,23 @@ function drawRow(index) {
   });
 }
 
-// setRandomRow(cells[0]);
-// drawRow(0);
+function drawBorder() {
+  cx.beginPath();
+  cx.strokeStyle = "red";
+  cx.lineWidth = 1;
+  cx.rect(0, 0, cx.canvas.width, cx.canvas.height);
+  cx.stroke();
+}
+
+// логика! :)
+
+
+
+// проверки
+
+setRandomRow(cells[0]);
+drawRow(0);
 
 setOneCellRow(cells[1]);
 drawRow(1);
+drawBorder();
