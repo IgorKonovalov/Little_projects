@@ -65,15 +65,77 @@ function copyRow(row1, row2) {
   })
 }
 
-function updateRowByRule(row1, row2) {
-  
+let ruleMap = [
+  [1,1,1],
+  [1,1,0],
+  [1,0,1],
+  [1,0,0],
+  [0,1,1],
+  [0,1,0],
+  [0,0,1],
+  [0,0,0]
+]
+
+let ruleValue = [
+  false,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true
+]
+
+
+function setNextRowByRule(prevRow, nextRow) {
+  let length = prevRow.length;
+  nextRow.forEach((cell, index) => {
+    let target = cell;
+    let leftSibling = prevRow[index - 1] || prevRow[length - 1];
+    let prevSelf = prevRow[index];
+    let rightSibling = prevRow[index + 1] || prevRow[0];
+    let toggleClass = setActiveIfMatchesRule.bind(null, target, leftSibling, prevSelf, rightSibling);
+    for (let i = 0; i < 8; i++) {
+      toggleClass(ruleMap[i], ruleValue[i]);
+    }
+  })
 }
 
+function setActiveIfMatchesRule(
+  target,
+  leftSibling,
+  prevSelf,
+  rightSibling,
+  rule,
+  ruleValue
+) {
+  let matchesRule =
+    leftSibling.status == rule[0] &&
+    prevSelf.status == rule[1] &&
+    rightSibling.status === rule[2]
+  if(matchesRule)
+    setIsActive(target, ruleValue)
+}
+
+function setIsActive(target, value) {
+  if (value) {
+    target.status = 1;
+  } else {
+    target.status = 0;
+  }
+}
 // проверки
 setRandomRow(cells[0]);
-setOneCellRow(cells[1]);
-setFullRow(cells[2]);
-copyRow(cells[0], cells[3]);
+//setOneCellRow(cells[1]);
+//setFullRow(cells[2]);
+//copyRow(cells[0], cells[3]);
+setNextRowByRule(cells[0], cells[1]);
+setNextRowByRule(cells[1], cells[2]);
+setNextRowByRule(cells[2], cells[3]);
+setNextRowByRule(cells[3], cells[4]);
+
+
 drawAllRows(cells);
 
 
