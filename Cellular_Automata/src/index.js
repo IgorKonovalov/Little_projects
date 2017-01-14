@@ -1,5 +1,5 @@
 const cx = document.querySelector("canvas").getContext("2d");
-const scale = 10;
+const scale = 5;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
 const color = "white";
@@ -126,17 +126,27 @@ function setIsActive(target, value) {
   }
 }
 // проверки
-setRandomRow(cells[0]);
-//setOneCellRow(cells[1]);
+// setRandomRow(cells[0]);
+setOneCellRow(cells[0]);
 //setFullRow(cells[2]);
 //copyRow(cells[0], cells[3]);
-setNextRowByRule(cells[0], cells[1]);
-setNextRowByRule(cells[1], cells[2]);
-setNextRowByRule(cells[2], cells[3]);
-setNextRowByRule(cells[3], cells[4]);
+
+// for (let i = 0; i < rowCount - 1; i++) {
+//   setNextRowByRule(cells[i], cells[i+1]);
+// }
+
+let count = 0;
+let update = setInterval(function() {
+  setNextRowByRule(cells[count], cells[count+1]);
+  drawAllRows(cells);
+  count++;
+  if (count == rowCount - 1) {
+    clearInterval(update);
+  }
+}, 70);
 
 
-drawAllRows(cells);
+// drawAllRows(cells);
 
 
 
