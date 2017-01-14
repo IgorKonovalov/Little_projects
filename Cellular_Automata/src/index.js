@@ -1,8 +1,8 @@
 const cx = document.querySelector("canvas").getContext("2d");
-const scale = 5;
+const scale = 10;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
-const color = "#000000";
+const color = "white";
 
 console.log("columns: " + columnCount + " rows: " + rowCount);
 
@@ -26,6 +26,9 @@ function setOneCellRow(row) {
   row[posX].status = 1;
 }
 
+function setFullRow(row) {
+  row.forEach(cell => {cell.status = 1;});
+}
 // рисование
 
 function drawRow(index) {
@@ -42,6 +45,14 @@ function drawRow(index) {
   });
 }
 
+function drawAllRows(cells) {
+  cells.forEach(function(row, index) {
+    drawRow(index);
+  })
+}
+
+
+
 function drawBorder() {
   cx.beginPath();
   cx.strokeStyle = "red";
@@ -55,10 +66,11 @@ function drawBorder() {
 
 
 // проверки
-
 setRandomRow(cells[0]);
-drawRow(0);
-
 setOneCellRow(cells[1]);
-drawRow(1);
-drawBorder();
+setFullRow(cells[2]);
+drawAllRows(cells);
+
+
+
+//setOneCellRow(cells[1]);
