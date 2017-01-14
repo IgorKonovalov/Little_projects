@@ -46,16 +46,12 @@ function drawRow(index) {
 }
 
 function drawAllRows(cells) {
-  cells.forEach(function(row, index) {
-    drawRow(index);
-  })
+  cells.forEach((_, index) => {drawRow(index)});
 }
-
-
 
 function drawBorder() {
   cx.beginPath();
-  cx.strokeStyle = "red";
+  cx.strokeStyle = "white";
   cx.lineWidth = 1;
   cx.rect(0, 0, cx.canvas.width, cx.canvas.height);
   cx.stroke();
@@ -63,12 +59,21 @@ function drawBorder() {
 
 // логика! :)
 
+function copyRow(row1, row2) {
+  row2.forEach((cell, index) => {
+    cell.status = row1[index].status;
+  })
+}
 
+function updateRowByRule(row1, row2) {
+  
+}
 
 // проверки
 setRandomRow(cells[0]);
 setOneCellRow(cells[1]);
 setFullRow(cells[2]);
+copyRow(cells[0], cells[3]);
 drawAllRows(cells);
 
 
