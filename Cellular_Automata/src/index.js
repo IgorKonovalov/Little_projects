@@ -1,10 +1,23 @@
 const cx = document.querySelector("canvas").getContext("2d");
+//colors and scale
+let color = "black";
+const cellColor = document.getElementById('cellColor');
+cellColor.addEventListener('change', function () {
+  color = cellColor.value;
+})
+
+let canvasColor = "white";
+const canvasUserColor = document.getElementById('canvasColor');
+canvasUserColor.addEventListener('change', function () {
+  canvasColor = canvasUserColor.value;
+  clearCanvas();
+})
+
 const scale = 4;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
-const color = "black";
-const canvasColor = document.querySelector("canvas").style.backgroundColor = "white";
-// console.log(document.querySelector("canvas").style.backgroundColor);
+
+
 console.log("columns: " + columnCount + " rows: " + rowCount);
 
 // функции для задания начального состояния
@@ -170,22 +183,19 @@ for (let item in RULES) {
 
 
 const startB = document.getElementById('startPause');
-let pressed = false;
 startB.addEventListener('click', function () {
-  if (!pressed) {
-    for (let item in RULES) {
-      if (RULES[item].rule == selectRule.value) {
-        updateCanvas(item, firstRowState);
-      }
+  for (let item in RULES) {
+    if (RULES[item].rule == selectRule.value) {
+      updateCanvas(item, firstRowState);
     }
-    pressed = true;
-  } else if (pressed) {
-    ClearAllIntervals();
-    pressed = false;
   }
 })
-const pauseB = document.getElementById('clear');
-
+const clearB = document.getElementById('clear');
+clearB.addEventListener('click', function () {
+  ClearAllIntervals();
+  createStart();
+  clearCanvas();
+})
 
 
 
