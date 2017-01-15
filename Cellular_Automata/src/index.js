@@ -2,8 +2,9 @@ const cx = document.querySelector("canvas").getContext("2d");
 const scale = 4;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
-const color = "white";
-
+const color = "black";
+const canvasColor = document.querySelector("canvas").style.backgroundColor = "white";
+// console.log(document.querySelector("canvas").style.backgroundColor);
 console.log("columns: " + columnCount + " rows: " + rowCount);
 
 // функции для задания начального состояния
@@ -65,7 +66,7 @@ function drawAllRows(cells) {
 
 function drawBorder() {
   cx.beginPath();
-  cx.strokeStyle = "white";
+  cx.strokeStyle = color;
   cx.lineWidth = 1;
   cx.rect(0, 0, cx.canvas.width, cx.canvas.height);
   cx.stroke();
@@ -121,7 +122,7 @@ function setIsActive(target, value) {
 function clearCanvas() {
   cx.beginPath();
   cx.rect(0, 0, cx.canvas.width, cx.canvas.height);
-  cx.fillStyle="black";
+  cx.fillStyle = canvasColor;
   cx.fill();
 }
 
@@ -153,13 +154,13 @@ selectFirstRow.appendChild(optionRow4);
 
 
 const selectRule = document.getElementById('selectRule');
-selectRule.addEventListener('change', function () {
-  for (let item in RULES) {
-    if (RULES[item].rule == selectRule.value) {
-      updateCanvas(item, firstRowState);
-    }
-  }
-})
+// selectRule.addEventListener('change', function () {
+//   for (let item in RULES) {
+//     if (RULES[item].rule == selectRule.value) {
+//       updateCanvas(item, firstRowState);
+//     }
+//   }
+// })
 for (let item in RULES) {
   let option = document.createElement('option');
   option.innerHTML = RULES[item].rule;
@@ -169,6 +170,20 @@ for (let item in RULES) {
 
 
 const startB = document.getElementById('startPause');
+let pressed = false;
+startB.addEventListener('click', function () {
+  if (!pressed) {
+    for (let item in RULES) {
+      if (RULES[item].rule == selectRule.value) {
+        updateCanvas(item, firstRowState);
+      }
+    }
+    pressed = true;
+  } else if (pressed) {
+    ClearAllIntervals();
+    pressed = false;
+  }
+})
 const pauseB = document.getElementById('clear');
 
 

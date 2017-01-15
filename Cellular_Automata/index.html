@@ -17,17 +17,29 @@
     select {
       min-width: 120px;
     }
+    .wrapper {
+      width: 800px;
+    }
   </style>
-  <canvas id="automata" width="1500px" height="700px" style="background-color: black"></canvas>
-  <div class="controls">
-    Select rule:
-    <select id="selectRule">
-    </select>
-    Select first row:
-    <select id="selectFirstRow">
-    </select>
-    <button id="clear">Clear</button>
-    <button id="startPause">Start/Pause</button>
+  <div class="wrapper">
+    <canvas id="automata" width="800px" height="600px" style="background-color: white"></canvas>
+    <div class="controls">
+      Select rule:
+      <select id="selectRule">
+      </select>
+      Select first row:
+      <select id="selectFirstRow">
+      </select>
+      <button id="clear">Clear</button>
+      <button id="startPause">Start/Pause</button>
+      <br>
+      <br>
+      Select cell color:
+      <input id="cellColor" type="color">
+      Select canvas color:
+      <input id="canvasColor" type="color">
+
+    </div>
   </div>
   <script src="src/rules.js"></script>
   <script src="src/index.js"></script>
