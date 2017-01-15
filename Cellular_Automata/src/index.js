@@ -180,12 +180,17 @@ const pauseB = document.getElementById('clear');
 //setFullRow(cells[2]);
 //copyRow(cells[0], cells[3]);
 
+function ClearAllIntervals() {
+    for (var i = 1; i < 99999; i++)
+        window.clearInterval(i);
+}
 
 
 // update canvas function
 function updateCanvas(ruleNumber, first) {
   createStart();
   clearCanvas();
+  ClearAllIntervals();
   if (first == 'Random') {
     setRandomRow(cells[0]);
   } else if (first == 'One') {
@@ -205,5 +210,3 @@ function updateCanvas(ruleNumber, first) {
     }
   }, 50);
 }
-
-//updateCanvas(0, setRandomRow(cells[0]));
