@@ -6,15 +6,6 @@ const color = "white";
 
 console.log("columns: " + columnCount + " rows: " + rowCount);
 
-let cells = [];
-
-for (let row = 0; row < rowCount; row++) {
-  cells[row] = [];
-  for (let column = 0; column < columnCount; column++) {
-    cells[row][column] = {x: 0, y: 0, status: 0};
-  }
-}
-
 // функции для задания начального состояния
 
 function setRandomRow(row) {
@@ -40,6 +31,18 @@ function createEmptyRow(row) {
     row[i] = {x: 0, y: 0, status: 0};
   }
 }
+
+let cells=[];
+function createStart() {
+  for (let row = 0; row < rowCount; row++) {
+    cells[row] = [];
+    for (let column = 0; column < columnCount; column++) {
+      cells[row][column] = {x: 0, y: 0, status: 0};
+    }
+  }
+}
+
+createStart();
 // рисование
 
 function drawRow(index) {
@@ -75,28 +78,6 @@ function copyRow(row1, row2) {
     cell.status = row1[index].status;
   })
 }
-
-let ruleMap = [
-  [1,1,1],
-  [1,1,0],
-  [1,0,1],
-  [1,0,0],
-  [0,1,1],
-  [0,1,0],
-  [0,0,1],
-  [0,0,0]
-]
-
-let ruleValue = [
-  false,
-  true,
-  false,
-  false,
-  true,
-  false,
-  false,
-  true
-]
 
 
 function setNextRowByRule(rule, prevRow, nextRow) {
@@ -143,25 +124,86 @@ function clearCanvas() {
   cx.fillStyle="black";
   cx.fill();
 }
+
+// Управление
+
+const selectFirstRow = document.getElementById('selectFirstRow');
+let firstRowState = 'Random';
+selectFirstRow.addEventListener('change', function () {
+  if (selectFirstRow.value == 'Random') firstRowState = 'Random'
+  else if (selectFirstRow.value == 'One') firstRowState = 'One'
+  else if (selectFirstRow.value == 'Full') firstRowState = 'Full'
+  else if (selectFirstRow.value == 'None') firstRowState = 'None'
+})
+let optionRow1 = document.createElement('option');
+optionRow1.innerHTML = 'Random';
+selectFirstRow.appendChild(optionRow1);
+let optionRow2 = document.createElement('option');
+optionRow2.innerHTML = 'One';
+selectFirstRow.appendChild(optionRow2);
+let optionRow3 = document.createElement('option');
+optionRow3.innerHTML = 'Full';
+selectFirstRow.appendChild(optionRow3);
+let optionRow4 = document.createElement('option');
+optionRow4.innerHTML = 'None';
+selectFirstRow.appendChild(optionRow4);
+
+
+
+
+
+const selectRule = document.getElementById('selectRule');
+selectRule.addEventListener('change', function () {
+  for (let item in RULES) {
+    if (RULES[item].rule == selectRule.value) {
+      updateCanvas(item, firstRowState);
+    }
+  }
+})
+for (let item in RULES) {
+  let option = document.createElement('option');
+  option.innerHTML = RULES[item].rule;
+  selectRule.appendChild(option);
+}
+
+
+
+const startB = document.getElementById('startPause');
+const pauseB = document.getElementById('clear');
+
+
+
+
 // проверки
 // setRandomRow(cells[0]);
-setOneCellRow(cells[0]);
+//setOneCellRow(cells[0]);
 //setFullRow(cells[2]);
 //copyRow(cells[0], cells[3]);
 
 
-let count = 0;
-let update = setInterval(function() {
-  setNextRowByRule(RULES[0], cells[count], cells[count+1]);
-  drawAllRows(cells);
-  count++;
-  if (count == rowCount - 1) {
-    clearInterval(update);
+
+// update canvas function
+function updateCanvas(ruleNumber, first) {
+  createStart();
+  clearCanvas();
+  if (first == 'Random') {
+    setRandomRow(cells[0]);
+  } else if (first == 'One') {
+    setOneCellRow(cells[0]);
+  } else if (first == 'Full') {
+    setFullRow(cells[0]);
+  } else if (first == 'None'){
+    setEmptyRow(cells[0]);
   }
-}, 50);
+  let count = 0;
+  let update = setInterval(function() {
+    setNextRowByRule(RULES[ruleNumber], cells[count], cells[count+1]);
+    drawAllRows(cells);
+    count++;
+    if (count == rowCount - 1) {
+      clearInterval(update);
+    }
+  }, 50);
+}
 
-// drawAllRows(cells);
-
-
-
-//setOneCellRow(cells[1]);
+//updateCanvas(0, setRandomRow(cells[0]));
