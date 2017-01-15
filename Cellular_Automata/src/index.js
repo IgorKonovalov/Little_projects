@@ -1,5 +1,5 @@
 const cx = document.querySelector("canvas").getContext("2d");
-const scale = 5;
+const scale = 4;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
 const color = "white";
@@ -180,7 +180,7 @@ const pauseB = document.getElementById('clear');
 //setFullRow(cells[2]);
 //copyRow(cells[0], cells[3]);
 
-function ClearAllIntervals() {
+function ClearAllIntervals() { // this maybe a bad idea...
     for (var i = 1; i < 99999; i++)
         window.clearInterval(i);
 }
