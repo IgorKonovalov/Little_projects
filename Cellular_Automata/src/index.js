@@ -27,7 +27,18 @@ function setOneCellRow(row) {
 }
 
 function setFullRow(row) {
-  row.forEach(cell => {cell.status = 1;});
+  row.forEach(cell => {cell.status = 1});
+}
+
+function setEmptyRow(row) {
+  row.forEach(cell => {cell.status = 0});
+}
+
+function createEmptyRow(row) {
+  row = [];
+  for (let i = 0; i < columnCount; i++) {
+    row[i] = {x: 0, y: 0, status: 0};
+  }
 }
 // рисование
 
@@ -88,7 +99,7 @@ let ruleValue = [
 ]
 
 
-function setNextRowByRule(prevRow, nextRow) {
+function setNextRowByRule(rule, prevRow, nextRow) {
   let length = prevRow.length;
   nextRow.forEach((cell, index) => {
     let target = cell;
@@ -97,7 +108,7 @@ function setNextRowByRule(prevRow, nextRow) {
     let rightSibling = prevRow[index + 1] || prevRow[0];
     let toggleClass = setActiveIfMatchesRule.bind(null, target, leftSibling, prevSelf, rightSibling);
     for (let i = 0; i < 8; i++) {
-      toggleClass(ruleMap[i], ruleValue[i]);
+      toggleClass(rule.ruleMap[i], rule.ruleValue[i]);
     }
   })
 }
@@ -125,26 +136,29 @@ function setIsActive(target, value) {
     target.status = 0;
   }
 }
+
+function clearCanvas() {
+  cx.beginPath();
+  cx.rect(0, 0, cx.canvas.width, cx.canvas.height);
+  cx.fillStyle="black";
+  cx.fill();
+}
 // проверки
 // setRandomRow(cells[0]);
 setOneCellRow(cells[0]);
 //setFullRow(cells[2]);
 //copyRow(cells[0], cells[3]);
 
-// for (let i = 0; i < rowCount - 1; i++) {
-//   setNextRowByRule(cells[i], cells[i+1]);
-// }
 
 let count = 0;
 let update = setInterval(function() {
-  setNextRowByRule(cells[count], cells[count+1]);
+  setNextRowByRule(RULES[0], cells[count], cells[count+1]);
   drawAllRows(cells);
   count++;
   if (count == rowCount - 1) {
     clearInterval(update);
   }
-}, 70);
-
+}, 50);
 
 // drawAllRows(cells);
 
