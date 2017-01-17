@@ -1,19 +1,22 @@
 const cx = document.querySelector("canvas").getContext("2d");
 //colors and scale
-let color = "black";
+let color;
 const cellColor = document.getElementById('cellColor');
 cellColor.addEventListener('change', function () {
+  if (psychoOn.checked) {
+    psychoOn.checked = false;
+  }
   color = cellColor.value;
 })
 
-let canvasColor = "white";
+let canvasColor = "black";
 const canvasUserColor = document.getElementById('canvasColor');
 canvasUserColor.addEventListener('change', function () {
   canvasColor = canvasUserColor.value;
   clearCanvas();
 })
 
-const scale = 4;
+const scale = 5;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
 
@@ -21,6 +24,16 @@ const columnCount = Math.floor(cx.canvas.width / scale);
 console.log("columns: " + columnCount + " rows: " + rowCount);
 
 // функции для задания начального состояния
+
+let randomColor;
+function getRandomColor() {
+  let max = 254;
+  red = Math.floor(Math.random() * max);
+  green = Math.floor(Math.random() * max);
+  blue = Math.floor(Math.random() * max);
+  randomColor = "rgb(" + red + ", " + green + ", " + blue + ")";
+  return randomColor;
+}
 
 function setRandomRow(row) {
   row.forEach(cell => {cell.status = Math.round(Math.random());});
@@ -50,6 +63,8 @@ let cells=[];
 function createStart() {
   for (let row = 0; row < rowCount; row++) {
     cells[row] = [];
+    let randomColorValue = getRandomColor();
+    cells[row].color = randomColorValue || color;
     for (let column = 0; column < columnCount; column++) {
       cells[row][column] = {x: 0, y: 0, status: 0};
     }
@@ -60,13 +75,16 @@ createStart();
 // рисование
 
 function drawRow(index) {
+  if (psychoOn.checked) {
+    getRandomColor();
+  }
   cells[index].forEach(function(cell, column) {
     cell.x = column * scale;
     cell.y = index * scale;
     if (cell.status == 1) {
       cx.beginPath();
       cx.rect(cell.x, cell.y, scale, scale);
-      cx.fillStyle = color;
+      cx.fillStyle = color || randomColor;
       cx.fill();
       cx.closePath();
     }
@@ -146,8 +164,6 @@ let firstRowState = 'Random';
 selectFirstRow.addEventListener('change', function () {
   if (selectFirstRow.value == 'Random') firstRowState = 'Random'
   else if (selectFirstRow.value == 'One') firstRowState = 'One'
-  else if (selectFirstRow.value == 'Full') firstRowState = 'Full'
-  else if (selectFirstRow.value == 'None') firstRowState = 'None'
 })
 let optionRow1 = document.createElement('option');
 optionRow1.innerHTML = 'Random';
@@ -155,12 +171,6 @@ selectFirstRow.appendChild(optionRow1);
 let optionRow2 = document.createElement('option');
 optionRow2.innerHTML = 'One';
 selectFirstRow.appendChild(optionRow2);
-let optionRow3 = document.createElement('option');
-optionRow3.innerHTML = 'Full';
-selectFirstRow.appendChild(optionRow3);
-let optionRow4 = document.createElement('option');
-optionRow4.innerHTML = 'None';
-selectFirstRow.appendChild(optionRow4);
 
 
 
@@ -197,6 +207,12 @@ clearB.addEventListener('click', function () {
   clearCanvas();
 })
 
+const psychoOn = document.getElementById('psychedelic');
+psychoOn.addEventListener('change', function(event) {
+  if (psychoOn.checked) {
+    color = null;
+  }
+})
 
 
 // проверки
