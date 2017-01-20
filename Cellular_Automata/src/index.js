@@ -205,6 +205,7 @@ clearB.addEventListener('click', function () {
   ClearAllIntervals();
   createStart();
   clearCanvas();
+
 })
 
 const psychoOn = document.getElementById('psychedelic');
