@@ -23,6 +23,9 @@ let RULES = [
   {rule: 105,
   ruleMap: [[1,1,1],[1,1,0],[1,0,1],[1,0,0],[0,1,1],[0,1,0],[0,0,1],[0,0,0]],
   ruleValue: [false, true, true, false, true, false, false, true]},
+  {rule: 110,
+  ruleMap: [[1,1,1],[1,1,0],[1,0,1],[1,0,0],[0,1,1],[0,1,0],[0,0,1],[0,0,0]],
+  ruleValue: [false, true, true, false, true, true, true, false]},
   {rule: 225,
   ruleMap: [[1,1,1],[1,1,0],[1,0,1],[1,0,0],[0,1,1],[0,1,0],[0,0,1],[0,0,0]],
   ruleValue: [true, true, true, false, false, false, false, true]}

@@ -16,7 +16,7 @@ canvasUserColor.addEventListener('change', function () {
   clearCanvas();
 })
 
-const scale = 5;
+const scale = 4;
 const rowCount = Math.floor(cx.canvas.height / scale);
 const columnCount = Math.floor(cx.canvas.width / scale);
 
