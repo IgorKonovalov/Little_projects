@@ -18,6 +18,12 @@ Vector.prototype.multiply = function(factor) {
   return new Vector(x, y)
 }
 
+Vector.prototype.random = function(length) {
+  x = randomNumber(-length, length);
+  y = Math.sqrt(Math.pow(length, 2) - Math.pow(x, 2)) * randomSign();
+  return new Vector(x, y);
+}
+
 function randomNumber(min, max) {
   if (min > 0)
     return (max - min) * Math.random();
@@ -26,14 +32,16 @@ function randomNumber(min, max) {
 }
 
 function randomSign() {
-  let test = Math.ceil(Math.random() * 2);
+  let test = Math.round(Math.random() * 2);
   if (test == 1)
     return -1;
   else
     return 1;
 }
 
-console.log(randomSign());
+let test = new Vector;
+console.log(test.random(1));
+
 let vector = new Vector(1,2);
 
 console.log(vector.multiply(10));
