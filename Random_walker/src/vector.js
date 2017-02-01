@@ -39,9 +39,35 @@ function randomSign() {
     return 1;
 }
 
-let test = new Vector;
-console.log(test.random(1));
+let centerV = new Vector(canvas.width / 2, canvas.height / 2);
 
-let vector = new Vector(1,2);
+cx.strokeStyle="white";
 
-console.log(vector.multiply(10));
+function draw() {
+  let rVector = new Vector;
+  let length = 4;
+  let randomChance = randomNumber(1, 100);
+  if (randomChance < 10) {
+    length = randomNumber(150,300);
+  }
+  cx.beginPath();
+  cx.moveTo(centerV.x, centerV.y);
+  if (centerV.x > canvas.width) {centerV.x += -100;}
+  if (centerV.x < 0) {center.x += 100;}
+  if (centerV.y > canvas.height) {centerV.y += -100;}
+  if (centerV.y < 0) {centerV.y += 100;}
+  let newCenter = centerV.plus(rVector.random(length));
+  cx.lineTo(newCenter.x, newCenter.y);
+  cx.closePath();
+  cx.stroke();
+  centerV = newCenter;
+}
+
+let timer = setInterval(() => {
+  draw()
+},200);
+
+const stopB = document.getElementById('stopB');
+stopB.addEventListener('click', () => {
+  clearInterval(timer);
+})
