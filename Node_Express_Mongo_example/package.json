@@ -1,0 +1,25 @@
+{
+  "name": "notable",
+  "version": "1.0.0",
+  "description": "Node_Express_Mongo example of simple node app available CRUD",
+  "main": "index.js",
+  "scripts": {
+     "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "author": "IgorKonovalov",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "mongodb": "^2.2.22"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
