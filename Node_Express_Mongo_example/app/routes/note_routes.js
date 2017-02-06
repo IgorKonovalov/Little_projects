@@ -11,7 +11,7 @@ module.exports = function(app, db) {
       }
     });
   });
-app.post('/notes', (req, res) => {
+  app.post('/notes', (req, res) => {
     const note = { text: req.body.body, title: req.body.title };
     db.collection('notes').insert(note, (err, result) => {
       if (err) {
@@ -21,7 +21,7 @@ app.post('/notes', (req, res) => {
       }
     });
   });
-app.delete('/notes/:id', (req, res) => {
+  app.delete('/notes/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('notes').remove(details, (err, item) => {
@@ -32,7 +32,7 @@ app.delete('/notes/:id', (req, res) => {
       }
     });
   });
-app.put('/notes/:id', (req, res) => {
+  app.put('/notes/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     const note = { text: req.body.body, title: req.body.title };
@@ -44,5 +44,4 @@ app.put('/notes/:id', (req, res) => {
       }
     });
   });
-
 };
