@@ -5,32 +5,20 @@ const cx = canvas.getContext('2d');
 
 let r, x, y, fi, deg;
 
-// роза (из https://en.wikipedia.org/wiki/Rose_(mathematics))
 const inputN = document.getElementById('n');
 const inputD = document.getElementById('d');
 const inputMaurer = document.getElementById('maurer');
+const arrayInputs = [inputN, inputD, inputMaurer];
 
 let n = 20;
 let d = 2;
-let k;
-
-
-// соединяем лепестки (https://en.wikipedia.org/wiki/Maurer_rose)
+let k = n/d;
 
 let maurer = 71; // 0-360
 const xStart = canvas.width/2;
 const yStart = canvas.height/2;
 
 cx.lineCap = 'round';
-
-const button = document.getElementById('generate');
-button.addEventListener('click', function() {
-  n = inputN.value;
-  d = inputD.value;
-  maurer = inputMaurer.value;
-  k = n / d;
-  draw(n, d, maurer, k);
-})
 
 function draw(n, d, maurer, k) {
   cx.clearRect(0, 0, canvas.width, canvas.height);
@@ -58,3 +46,61 @@ function draw(n, d, maurer, k) {
   }
   cx.stroke();
 }
+// pre-render
+draw(n, d, maurer, k);
+
+// buttons, range etc..
+
+const button = document.getElementById('generate');
+button.addEventListener('click', () => {
+  n = inputN.value;
+  d = inputD.value;
+  maurer = inputMaurer.value;
+  k = n / d;
+  draw(n, d, maurer, k);
+})
+// sliders setup
+let elementsArray = []
+const rangeNValue = document.getElementById('rangeNValue');
+const rangeN = document.getElementById('rangeN');
+elementsArray.push(rangeN);
+rangeNValue.innerHTML = rangeN.value;
+rangeN.addEventListener('mousemove', () => {
+  rangeNValue.innerHTML = rangeN.value;
+  inputN.value = rangeN.value;
+})
+const rangeDValue = document.getElementById('rangeDValue');
+const rangeD = document.getElementById('rangeD');
+elementsArray.push(rangeD);
+rangeDValue.innerHTML = rangeD.value;
+rangeD.addEventListener('mousemove', () => {
+  rangeDValue.innerHTML = rangeD.value;
+  inputD.value = rangeD.value;
+})
+const rangeMaurerValue = document.getElementById('rangeMaurerValue');
+const rangeMaurer = document.getElementById('rangeMaurer');
+elementsArray.push(rangeMaurer);
+rangeMaurerValue.innerHTML = rangeMaurer.value;
+rangeMaurer.addEventListener('mousemove', () => {
+  rangeMaurerValue.innerHTML = rangeMaurer.value;
+  inputMaurer.value = rangeMaurer.value;
+})
+
+// change events handling
+elementsArray.forEach((element)=>{
+  element.addEventListener('change', () => {
+    n = rangeN.value;
+    d = rangeD.value;
+    maurer = rangeMaurer.value;
+    k = n / d;
+    draw(n, d, maurer, k);
+  });
+});
+
+arrayInputs.forEach((element)=> {
+  element.addEventListener('keyup', () => {
+    rangeNValue.innerHTML = rangeN.value = inputN.value;
+    rangeDValue.innerHTML = rangeD.value = inputD.value;
+    rangeMaurerValue.innerHTML = rangeMaurer.value = inputMaurer.value;
+  })
+})
