@@ -73,6 +73,10 @@ rangeN.addEventListener('mousemove', () => {
   rangeNValue.innerHTML = rangeN.value;
   inputN.value = rangeN.value;
 })
+rangeN.addEventListener('touchmove', () => {
+  rangeNValue.innerHTML = rangeN.value;
+  inputN.value = rangeN.value;
+})
 const rangeDValue = document.getElementById('rangeDValue');
 const rangeD = document.getElementById('rangeD');
 elementsArray.push(rangeD);
@@ -81,6 +85,11 @@ rangeD.addEventListener('mousemove', () => {
   rangeDValue.innerHTML = rangeD.value;
   inputD.value = rangeD.value;
 })
+rangeD.addEventListener('touchmove', () => {
+  rangeDValue.innerHTML = rangeD.value;
+  inputD.value = rangeD.value;
+})
+
 const rangeMaurerValue = document.getElementById('rangeMaurerValue');
 const rangeMaurer = document.getElementById('rangeMaurer');
 elementsArray.push(rangeMaurer);
@@ -89,6 +98,11 @@ rangeMaurer.addEventListener('mousemove', () => {
   rangeMaurerValue.innerHTML = rangeMaurer.value;
   inputMaurer.value = rangeMaurer.value;
 })
+rangeMaurer.addEventListener('touchmove', () => {
+  rangeMaurerValue.innerHTML = rangeMaurer.value;
+  inputMaurer.value = rangeMaurer.value;
+})
+
 
 // change events handling
 elementsArray.forEach((element)=>{
@@ -100,6 +114,19 @@ elementsArray.forEach((element)=>{
     draw(n, d, maurer, k);
   });
 });
+
+elementsArray.forEach((element)=>{
+  element.addEventListener('touchmove', () => {
+    n = rangeN.value;
+    d = rangeD.value;
+    maurer = rangeMaurer.value;
+    k = n / d;
+    draw(n, d, maurer, k);
+  });
+});
+
+
+
 
 arrayInputs.forEach((element)=> {
   element.addEventListener('keyup', () => {
