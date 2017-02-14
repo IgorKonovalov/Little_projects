@@ -1,7 +1,5 @@
-console.log('hello, lovely');
 const canvas = document.getElementById('rose');
 const cx = canvas.getContext('2d');
-
 
 let r, x, y, fi, deg;
 
@@ -9,6 +7,9 @@ const inputN = document.getElementById('n');
 const inputD = document.getElementById('d');
 const inputMaurer = document.getElementById('maurer');
 const arrayInputs = [inputN, inputD, inputMaurer];
+const checkRose = document.getElementById('showRose');
+const checkMaurer = document.getElementById('showMaurer');
+const arrayCheck = [checkRose, checkMaurer];
 
 let n = 20;
 let d = 2;
@@ -23,28 +24,31 @@ cx.lineCap = 'round';
 function draw(n, d, maurer, k) {
   cx.clearRect(0, 0, canvas.width, canvas.height);
   // connecting rose on angle
-  cx.beginPath();
-  cx.strokeStyle = 'blue';
-  for (let i = 0; i < 3600; i++) {
-    fi = (maurer * i) * Math.PI / 180;
-    r = Math.cos(k * fi) * (xStart - 20);
-    x = xStart + r * Math.cos(fi);
-    y = yStart + r * Math.sin(fi);
-    cx.lineTo(x, y);
+  if (checkMaurer.checked) {
+    cx.beginPath();
+    cx.strokeStyle = 'blue';
+    for (let i = 0; i < 3600; i++) {
+      fi = (maurer * i) * Math.PI / 180;
+      r = Math.cos(k * fi) * (xStart - 20);
+      x = xStart + r * Math.cos(fi);
+      y = yStart + r * Math.sin(fi);
+      cx.lineTo(x, y);
+    }
+    cx.stroke();
   }
-  cx.stroke();
-
   // drawing rose
-  cx.beginPath();
-  cx.strokeStyle = 'red';
-  for (let a = 0; a < 3600 * d; a++) {
-    deg = a * Math.PI / 180;
-    r = Math.cos(k * deg) * (xStart - 20);
-    x = xStart + r * Math.cos(deg);
-    y = xStart + r * Math.sin(deg);
-    cx.lineTo(x, y);
+  if (checkRose.checked) {
+    cx.beginPath();
+    cx.strokeStyle = 'red';
+    for (let a = 0; a < 3600 * Math.ceil(d); a++) {
+      deg = a * Math.PI / 180;
+      r = Math.cos(k * deg) * (xStart - 20);
+      x = xStart + r * Math.cos(deg);
+      y = xStart + r * Math.sin(deg);
+      cx.lineTo(x, y);
+    }
+    cx.stroke();
   }
-  cx.stroke();
 }
 // pre-render
 draw(n, d, maurer, k);
@@ -102,5 +106,15 @@ arrayInputs.forEach((element)=> {
     rangeNValue.innerHTML = rangeN.value = inputN.value;
     rangeDValue.innerHTML = rangeD.value = inputD.value;
     rangeMaurerValue.innerHTML = rangeMaurer.value = inputMaurer.value;
+  })
+})
+
+arrayCheck.forEach((checkbox) => {
+  checkbox.addEventListener('change', () => {
+    n = rangeN.value;
+    d = rangeD.value;
+    maurer = rangeMaurer.value;
+    k = n / d;
+    draw(n, d, maurer, k);
   })
 })
