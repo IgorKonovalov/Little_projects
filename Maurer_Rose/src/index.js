@@ -92,7 +92,7 @@ rangeMaurer.addEventListener('mousemove', () => {
 
 // change events handling
 elementsArray.forEach((element)=>{
-  element.addEventListener('change', () => {
+  element.addEventListener('mousemove', () => {
     n = rangeN.value;
     d = rangeD.value;
     maurer = rangeMaurer.value;
