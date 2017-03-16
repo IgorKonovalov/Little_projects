@@ -1,18 +1,53 @@
 import React, {Component} from 'react'
-import logo from './logo.svg'
 import './App.css'
 
 const list = [
   {
     title: 'React',
     url: 'http://igorkonovalov.github.io',
+    author: 'igorkonovalov',
+    // eslint-disable-next-line
+    num_comments: '1',
+    points: '2',
+    objectID: 1,
+  },
+  {
+    title: 'React2',
+    url: 'http://igorkonovalov.github.io2',
+    author: 'igorkonovalov',
+    // eslint-disable-next-line
+    num_comments: '1',
+    points: '2',
+    objectID: 3,
   }]
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      list,
+    }
+  }
+
+  handleClick = () => {
+    console.log('hey')
+  }
+
   render() {
     return (
       <div className="App">
-        <h1>Hello there</h1>
+        {this.state.list.map(item =>
+          <div key={item.objectID}>
+            <span><a href={item.url}>{item.title}</a></span>
+            <span>{item.author}</span>
+            <span>{item.num_comments}</span>
+            <span>{item.points}</span>
+            <span>
+              <button type="button">Dismiss</button>
+            </span>
+          </div>,
+        )}
+        <button onClick={this.handleClick}>hey</button>
       </div>
     )
   }
