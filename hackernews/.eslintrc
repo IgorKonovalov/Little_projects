@@ -6,6 +6,7 @@
     "react"
   ],
   "rules": {
+    "func-style": 0,
     "import/no-unassigned-import": 0,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
