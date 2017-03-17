@@ -61,48 +61,47 @@ class App extends Component {
   }
 }
 
-class Search extends Component {
-  render() {
-    const {value, onChange, children} = this.props
-    return (
-      <form>
-        <span>{children} </span>
-        <input
-          type="text"
-          value={value}
-          onChange={onChange}
-        />
-      </form>
-    )
-  }
+function Search({value, onChange, children}) {
+  return (
+    <form>
+      <span>{children} </span>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+      />
+    </form>
+  )
 }
 
-class Table extends Component {
-  render() {
-    //eslint-disable-next-line
-    const {list, pattern, onDismiss} = this.props
-    return (
-      <div>
-        {list.filter(isSearched(pattern)).map(item =>
-          <div key={item.objectID}>
-            <span><a href={item.url}>{item.title}</a></span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button
-                type="button"
-                onClick={() => onDismiss(item.objectID)}
-                >Dismiss</button>
-            </span>
-          </div>,
-        )}
-    </div>
-    )
-  }
+//eslint-disable-next-line
+function Table({list, pattern, onDismiss}) {
+  return (
+    <div>
+      {list.filter(isSearched(pattern)).map(item =>
+        <div key={item.objectID}>
+          <span><a href={item.url}>{item.title}</a></span>
+          <span>{item.author}</span>
+          <span>{item.num_comments}</span>
+          <span>{item.points}</span>
+          <span>
+            <Button onClick={() => onDismiss(item.objectID)}>
+              Dismiss
+            </Button>
+          </span>
+        </div>,
+      )}
+  </div>
+  )
 }
 
-
+function Button({onClick, className = '', children}) {
+  return (
+    <button onClick={onClick} className={className} type="button">
+      {children}
+    </button>
+  )
+}
 
 
 export default App
