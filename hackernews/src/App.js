@@ -1,82 +1,85 @@
 import React, {Component} from 'react'
 import './App.css'
 
-const list = [
-  {
-    title: 'React',
-    url: 'http://igorkonovalov.github.io',
-    author: 'igorkonovalov',
-    // eslint-disable-next-line
-    num_comments: '1',
-    points: '2',
-    objectID: 1,
-  },
-  {
-    title: 'React2',
-    url: 'http://igorkonovalov.github.io2',
-    author: 'igorkonovalov',
-    // eslint-disable-next-line
-    num_comments: '1',
-    points: '2',
-    objectID: 3,
-  }]
+const DEFAULT_QUERY = 'react'
 
-const isSearched = searchTerm => item =>
- !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase())
-
+const PATH_BASE = 'https://hn.algolia.com/api/v1'
+const PATH_SEARCH = '/search'
+const PARAM_SEARCH = 'query='
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      list,
-      searchTerm: '',
+      result: null,
+      searchTerm: DEFAULT_QUERY,
     }
   }
 
-  onDismiss = id => {
-    const updatedList = this.state.list.filter(item => item.objectID !== id)
-    this.setState({list: updatedList})
+  componentDidMount() {
+    const {searchTerm} = this.state
+    this.fetchSearchTopStories(searchTerm)
+  }
+
+  setSearchTopstories = result =>
+    this.setState({result})
+
+  fetchSearchTopStories = searchTerm =>
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then(response => response.json())
+      .then(result => this.setSearchTopstories(result))
+
+  onSearchSubmit = event => {
+    event.preventDefault()
+    const {searchTerm} = this.state
+    this.fetchSearchTopStories(searchTerm)
   }
 
   onSearchChange = event => {
     this.setState({searchTerm: event.target.value})
   }
 
+  onDismiss = id => {
+    const updatedHits = this.state.result.hits.filter(item => item.objectID !== id)
+    this.setState({
+      result: {...this.state.result, hits: updatedHits},
+    })
+  }
+
   render() {
-    //eslint-disable-next-line
-    const {searchTerm, list} = this.state
+    const {searchTerm, result} = this.state
     return (
       <div className="page">
         <div className="interactions">
-          <Search value={searchTerm} onChange={this.onSearchChange}>
-            <b>Search:</b>
+          <Search value={searchTerm} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit}>
+            <b>Search</b>
           </Search>
         </div>
-        <Table
-          list={list}
-          pattern={searchTerm}
-          onDismiss={this.onDismiss}
-        />
+        {result ?
+          <Table
+            list={result.hits}
+            onDismiss={this.onDismiss}
+          /> : null}
       </div>
     )
   }
 }
 
-const Search = ({value, onChange, children}) =>
-  <form>
-    <span>{children} </span>
+const Search = ({value, onChange, onSubmit, children}) =>
+  <form onSubmit={onSubmit}>
     <input
       type="text"
       value={value}
       onChange={onChange}
     />
+    <button type="submit">
+      {children}
+    </button>
   </form>
 
-//eslint-disable-next-line
 const Table = ({list, pattern, onDismiss}) =>
   <div className="table">
-    {list.filter(isSearched(pattern)).map(item =>
+    {list.map(item =>
       <div key={item.objectID} className="table-row">
         <span style={{width: '40%'}}><a href={item.url}>{item.title}</a></span>
         <span style={{width: '30%'}}>{item.author}</span>
