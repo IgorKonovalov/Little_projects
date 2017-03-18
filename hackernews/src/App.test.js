@@ -2,6 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
+import {shallow} from 'enzyme'
 import App, {Search, Button, Table} from './App'
 
 // eslint-disable-next-line
@@ -48,6 +49,11 @@ describe('Button', () => {
     expect(tree).toMatchSnapshot()
   })
 
+  it('should render to static HTML', () => {
+    const element = shallow(<Button>GIMME MORE!</Button>)
+    expect(element.text()).toEqual('GIMME MORE!')
+  })
+
 })
 
 describe('Table', () => {
@@ -67,6 +73,12 @@ describe('Table', () => {
     const component = renderer.create(<Table {...props} />)
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
+  })
+
+  // enzyme shallow - renders component without children
+  it('shows two items in list', () => {
+    const element = shallow(<Table {...props} />)
+    expect(element.find('div.table-row').length).toBe(2)
   })
 
 })
