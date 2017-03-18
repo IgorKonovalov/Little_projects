@@ -76,6 +76,7 @@ describe('Table', () => {
   })
 
   // enzyme shallow - renders component without children
+  // https://github.com/vjwilson/enzyme-example-jest/blob/master/src/__tests__/Foo-test.js
   it('shows two items in list', () => {
     const element = shallow(<Table {...props} />)
     expect(element.find('div.table-row').length).toBe(2)

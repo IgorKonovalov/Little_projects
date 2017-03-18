@@ -18,6 +18,7 @@ class App extends Component {
       results: null,
       searchKey: '',
       searchTerm: DEFAULT_QUERY,
+      isLoading: false,
     }
   }
 
@@ -48,14 +49,18 @@ class App extends Component {
         ...results,
         [searchKey]: {hits: updatedHits, page},
       },
+      isLoading: false,
     })
   }
 
 
-  fetchSearchTopStories = (searchTerm, page) =>
+  fetchSearchTopStories = (searchTerm, page) => {
+    this.setState({isLoading: true})
+
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
       .then(response => response.json())
       .then(result => this.setSearchTopstories(result))
+  }
 
 
   onSearchChange = event => {
@@ -75,7 +80,7 @@ class App extends Component {
   }
 
   render() {
-    const {searchTerm, results, searchKey} = this.state
+    const {searchTerm, results, searchKey, isLoading} = this.state
     const page = (results && results[searchKey] && results[searchKey].page) || 0
     const list = (results && results[searchKey] && results[searchKey].hits) || []
     return (
@@ -90,14 +95,22 @@ class App extends Component {
           onDismiss={this.onDismiss}
         />
         <div className="interactions">
-          <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-            GIMME MORE!
-          </Button>
+          {isLoading ?
+            <Loading /> :
+            <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+              GIMME MORE!
+            </Button>}
         </div>
       </div>
     )
   }
 }
+
+// font-awesome here
+const Loading = () =>
+  <i className="fa fa-spinner fa-pulse fa-3x fa-fw" style={{padding: '40px'}}></i>
+
+
 
 const Search = ({value, onChange, onSubmit, children}) =>
   <form onSubmit={onSubmit}>
@@ -122,7 +135,7 @@ const Table = ({list, onDismiss}) =>
   <div className="table">
     {list.map(item =>
       <div key={item.objectID} className="table-row">
-        <span style={{width: '40%'}}><a href={item.url}>{item.title}</a></span>
+        <span style={{width: '40%'}}><a href={item.url} target="_blank">{item.title}</a></span>
         <span style={{width: '30%'}}>{item.author}</span>
         <span style={{width: '10%'}}>{item.num_comments}</span>
         <span style={{width: '10%'}}>{item.points}</span>
