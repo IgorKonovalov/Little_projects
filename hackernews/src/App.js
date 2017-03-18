@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import './App.css'
 
 const DEFAULT_QUERY = 'react'
@@ -78,7 +78,6 @@ class App extends Component {
     const {searchTerm, results, searchKey} = this.state
     const page = (results && results[searchKey] && results[searchKey].page) || 0
     const list = (results && results[searchKey] && results[searchKey].hits) || []
-    console.log(this.state)
     return (
       <div className="page">
         <div className="interactions">
@@ -112,7 +111,14 @@ const Search = ({value, onChange, onSubmit, children}) =>
     </button>
   </form>
 
-const Table = ({list, pattern, onDismiss}) =>
+Search.PropTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
+  children: PropTypes.node.isRequired,
+}
+
+const Table = ({list, onDismiss}) =>
   <div className="table">
     {list.map(item =>
       <div key={item.objectID} className="table-row">
@@ -129,9 +135,34 @@ const Table = ({list, pattern, onDismiss}) =>
     )}
   </div>
 
-const Button = ({onClick, className = '', children}) =>
+Table.PropTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      author: PropTypes.string,
+      // eslint-disable-next-line
+      num_comments: PropTypes.number,
+      points: PropTypes.number,
+    })).isRequired,
+  onDismiss: PropTypes.func.isRequired,
+}
+
+const Button = ({onClick, className, children}) =>
   <button onClick={onClick} className={className} type="button">
     {children}
   </button>
 
+Button.defaultProps = {
+  className: '',
+}
+
+Button.PropTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
+
 export default App
+
+export {Button, Search, Table}
