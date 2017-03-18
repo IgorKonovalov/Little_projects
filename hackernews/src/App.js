@@ -95,22 +95,36 @@ class App extends Component {
           onDismiss={this.onDismiss}
         />
         <div className="interactions">
-          {isLoading ?
-            <Loading /> :
-            <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-              GIMME MORE!
-            </Button>}
+          <ButtonWithLoading isLoading={isLoading} onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+            GIMME MORE!
+          </ButtonWithLoading>
         </div>
       </div>
     )
   }
 }
 
+
 // font-awesome here
 const Loading = () =>
   <i className="fa fa-spinner fa-pulse fa-3x fa-fw" style={{padding: '40px'}}></i>
 
+const Button = ({onClick, className = '', children}) =>
+  <button onClick={onClick} className={className} type="button">
+    {children}
+  </button>
 
+Button.PropTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
+
+// HOC
+// eslint-disable-next-line
+const withLoading = Component => ({isLoading, ...rest}) => isLoading ? <Loading /> : <Component {...rest} />
+
+const ButtonWithLoading = withLoading(Button)
 
 const Search = ({value, onChange, onSubmit, children}) =>
   <form onSubmit={onSubmit}>
@@ -161,20 +175,6 @@ Table.PropTypes = {
   onDismiss: PropTypes.func.isRequired,
 }
 
-const Button = ({onClick, className, children}) =>
-  <button onClick={onClick} className={className} type="button">
-    {children}
-  </button>
-
-Button.defaultProps = {
-  className: '',
-}
-
-Button.PropTypes = {
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-}
 
 export default App
 

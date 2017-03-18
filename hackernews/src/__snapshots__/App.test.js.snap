@@ -21,12 +21,13 @@ exports[`App snapshots 1`] = `
     className="table" />
   <div
     className="interactions">
-    <button
-      className=""
-      onClick={[Function]}
-      type="button">
-      GIMME MORE!
-    </button>
+    <i
+      className="fa fa-spinner fa-pulse fa-3x fa-fw"
+      style={
+        Object {
+          "padding": "40px",
+        }
+      } />
   </div>
 </div>
 `;
@@ -66,7 +67,8 @@ exports[`Table snapshots 1`] = `
         }
       }>
       <a
-        href={undefined}>
+        href={undefined}
+        target="_blank">
         1
       </a>
     </span>
@@ -117,7 +119,8 @@ exports[`Table snapshots 1`] = `
         }
       }>
       <a
-        href={undefined}>
+        href={undefined}
+        target="_blank">
         2
       </a>
     </span>
