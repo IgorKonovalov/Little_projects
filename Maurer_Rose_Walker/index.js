@@ -10,7 +10,6 @@ let n, i, pathCounter, drawing, started, indexP
 let points, path = []
 
 startB.addEventListener('click', () => {
-  cx.clearRect(0, 0, canvas.width, canvas.height)
   if (!started) {
     startB.innerHTML = 'STOP'
     points = []
@@ -50,7 +49,7 @@ drawRose = n => {
   cx.strokeStyle = 'white'
   cx.lineCap = 'round'
   cx.lineWidth = .3
-  for (let a = 0; a < 360; a += 1) {
+  for (let a = 0; a < 360; a += 2) {
     deg = a * Math.PI / 180
     r = Math.sin(n * deg) * (xStart - 20)
     x = xStart + r * Math.cos(deg)
@@ -77,19 +76,20 @@ drawPath = index => {
     path.shift()
     path.push(index)
   }
+  let lineW = 0
   for (let j = 0; j < pathCounter - 1; j++) {
-    cx.beginPath()
     indexP = path[j]
-    if (!indexP) {
-      indexP = index
-    }
+    if (!indexP) indexP = index
     cx.strokeStyle = `hsl(${indexP}, 100%, 50%)`
-    cx.lineWidth = 15
-    if (indexP >= 1) {
+    if (lineW < 17) lineW += .1
+    cx.lineWidth = lineW
+    cx.beginPath()
+    if (indexP > 0) {
       cx.moveTo(points[indexP - 1].x, points[indexP - 1].y)
     }
     cx.lineTo(points[indexP].x, points[indexP].y)
     cx.stroke()
   }
+
   pathCounter++
 }
