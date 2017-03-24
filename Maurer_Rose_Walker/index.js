@@ -4,9 +4,9 @@ const cx = canvas.getContext('2d')
 const xStart = canvas.width/2
 const yStart = canvas.height/2
 
-let n = 7
-let d = 4
-let k = n/d
+const n = 3
+const d = 1
+const k = n/d
 
 let points = []
 
@@ -27,7 +27,7 @@ drawRose = k => {
 }
 
 getPoints = k => {
-  for (let a = 0; a < 360 * Math.ceil(d); a += .125) {
+  for (let a = 0; a < 360 * Math.ceil(d); a += .5) {
     deg = a * Math.PI / 180
     r = Math.sin(- k * deg) * (xStart - 20)
     x = xStart + r * Math.cos(deg)
@@ -45,7 +45,6 @@ let pathCounter = 0
 let path = []
 
 drawPoint = (point, index) => {
-  let prev = point
   cx.beginPath()
   cx.fillRect(point.x, point.y, 10, 10)
   cx.fillStyle = `hsl(${index}, 70%, 50%)`
@@ -53,18 +52,24 @@ drawPoint = (point, index) => {
 }
 
 drawPath = (index) => {
-  if (pathCounter < 1000) {
+  if (pathCounter < 200) {
     path.push(index)
   } else {
     path.shift()
     path.push(index)
   }
-  for (let i = 0; i < pathCounter; i++) {
-    let index = path[i]
+  for (let j = 0; j < pathCounter - 1; j++) {
     cx.beginPath()
-    cx.strokeStyle = `hsl(${index}, 70%, 50%)`
+    let indexP = path[j]
+    if (!indexP) {
+      indexP = index
+    }
+    cx.strokeStyle = `hsl(${indexP}, 70%, 50%)`
     cx.lineWidth = 10
-    cx.lineTo(points[index].x, points[index].y)
+    if (indexP >= 1) {
+      cx.moveTo(points[indexP - 1].x, points[indexP - 1].y)
+    }
+    cx.lineTo(points[indexP].x, points[indexP].y)
     cx.stroke()
   }
   pathCounter++
@@ -75,7 +80,7 @@ setInterval(() => {
   // drawPoint(points[i], i)
   drawPath(i)
   i++
-  if (i === 2878 * d) {
+  if (i === 361 * d) {
     i = 0
   }
-}, 10)
+}, 30)
