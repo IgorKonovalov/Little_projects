@@ -29,7 +29,7 @@ function draw(n, d, maurer, k) {
     cx.strokeStyle = 'blue';
     for (let i = 0; i < 3600; i++) {
       fi = (maurer * i) * Math.PI / 180;
-      r = Math.cos(k * fi) * (xStart - 20);
+      r = Math.sin(-k * fi) * (xStart - 20);
       x = xStart + r * Math.cos(fi);
       y = yStart + r * Math.sin(fi);
       cx.lineTo(x, y);
@@ -42,7 +42,7 @@ function draw(n, d, maurer, k) {
     cx.strokeStyle = 'red';
     for (let a = 0; a < 3600 * Math.ceil(d); a++) {
       deg = a * Math.PI / 180;
-      r = Math.cos(k * deg) * (xStart - 20);
+      r = Math.sin(-k * deg) * (xStart - 20);
       x = xStart + r * Math.cos(deg);
       y = xStart + r * Math.sin(deg);
       cx.lineTo(x, y);
