@@ -1,6 +1,6 @@
 /*eslint-disable no-undef*/
 import {shallow} from 'enzyme'
-import Stream from './Stream'
+import Stream from './presenter'
 
 describe('Stream', () => {
 
@@ -13,5 +13,4 @@ describe('Stream', () => {
 
     expect(element.find('.track')).to.have.length(2)
   })
-
 })
