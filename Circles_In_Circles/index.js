@@ -3,9 +3,9 @@ const cx = canvas.getContext('2d')
 
 cx.lineWidth = 2
 
-function drawCircle(centerX, centerY, radius) {
+function drawCircle(centerX, centerY, radius, color) {
   cx.beginPath()
-  cx.strokeStyle = 'white'
+  cx.strokeStyle = color
   cx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
   cx.stroke()
 }
@@ -20,13 +20,23 @@ function getPointsByCirle(radiusBig, radiusSmall, centerX, centerY) {
     y = centerX + radius * Math.sin(degreeRad)
     pointsArray.push({x: x, y: y})
   }
-  console.log(pointsArray);
+  return pointsArray;
 }
 
 const centerX = canvas.width/2
 const centerY = canvas.height/2
 const radius = 320
 
-drawCircle(centerX, centerY, radius)
+drawCircle(centerX, centerY, radius, 'white')
+const pointsArr = getPointsByCirle(radius, 120, centerX, centerY)
+let i = 0
 
-getPointsByCirle(radius, 30, centerX, centerY)
+setInterval(() => {
+  cx.clearRect(0, 0, canvas.width, canvas.height)
+  drawCircle(centerX, centerY, radius, 'white')
+  drawCircle(pointsArr[i].x, pointsArr[i].y, 120, 'white')
+  i++
+  if (i === 360) {
+    i = 0
+  }
+}, 10)
