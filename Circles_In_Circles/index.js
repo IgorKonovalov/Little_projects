@@ -25,16 +25,17 @@ function getPointsByCirle(radiusBig, radiusSmall, centerX, centerY) {
 
 const centerX = canvas.width/2
 const centerY = canvas.height/2
-const radius = 320
+const radiusOne = 320
+const radiusTwo = 120
+const radiusThree = 40
 
-drawCircle(centerX, centerY, radius, 'white')
-const pointsArr = getPointsByCirle(radius, 120, centerX, centerY)
+drawCircle(centerX, centerY, radiusOne, 'white')
+const pointsArr = getPointsByCirle(radiusOne, radiusTwo, centerX, centerY)
 let i = 0
-
 setInterval(() => {
   cx.clearRect(0, 0, canvas.width, canvas.height)
-  drawCircle(centerX, centerY, radius, 'white')
-  drawCircle(pointsArr[i].x, pointsArr[i].y, 120, 'white')
+  drawCircle(centerX, centerY, radiusOne, 'white')
+  drawCircle(pointsArr[i].x, pointsArr[i].y, radiusTwo, 'white')
   i++
   if (i === 360) {
     i = 0
