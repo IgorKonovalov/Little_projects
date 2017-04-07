@@ -20,7 +20,7 @@ let c = 10
 cx.fillStyle = 'white'
 
 function draw() {
-  let angle = degreeToRad(n * 137.5);
+  let angle = degreeToRad(n * 135.5);
   let rad = c * Math.sqrt(n);
   let x = rad * Math.cos(angle) + centerX;
   let y = rad * Math.sin(angle) + centerY;
