@@ -2,7 +2,8 @@ const canvas = document.getElementById('canvas')
 const cx = canvas.getContext('2d')
 
 function degreeToRad(degree) {
-  return degree / 180 * Math.PI
+  const rad = degree / 180 * Math.PI
+  return rad
 }
 
 function reMap(value, start1, stop1, start2, stop2) {
@@ -10,30 +11,26 @@ function reMap(value, start1, stop1, start2, stop2) {
   return start2 + slope * (value - start1)
 }
 
-console.log(reMap(1, -1, 1, 0, 360));
+const centerX = canvas.width / 2
+const centerY = canvas.height / 2
 
-const width = canvas.width / 2
-const height = canvas.height / 2
+let n = 0
+let c = 10
 
-const n = 0
-const c = 3
-
-let points = []
-let start = 0
+cx.fillStyle = 'white'
 
 function draw() {
-  cx.translate(width / 2, height / 2)
-  cx.rotate(degreeToRad(n * 0.3))
-  for (let i = 0; i < n; i++) {
-    let a = i * 137.5
-    let r = c * Math.sqrt(i)
-    let x = r * Math.cos(a)
-    let y = r * Math.sin(a)
-    let hu = Math.sin(start + i * 0.5)
-    hu = map(hu, -1, 1, 0, 360)
-    fill(hu, 255, 255)
-    cx.ellipse(x, y, 4, 4)
-  }
-  n += 5
-  start += 5
+  let angle = degreeToRad(n * 137.5);
+  let rad = c * Math.sqrt(n);
+  let x = rad * Math.cos(angle) + centerX;
+  let y = rad * Math.sin(angle) + centerY;
+  cx.beginPath();
+  cx.arc(x, y, 5, 0, 2 * Math.PI);
+  cx.fillStyle = `hsl(${n}, 100%, 50%)`
+  cx.fill();
+  n++;
 }
+
+setInterval(()=> {
+  draw()
+}, 10)
