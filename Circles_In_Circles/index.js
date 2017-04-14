@@ -14,11 +14,11 @@ function Circle(radius, radiusSmall, color) {
     const radiusInner = this.radius - this.radiusSmall
     let pointsArray = []
     let x, y
-    for (let i = 0; i < 360; i++) {
+    for (let i = 0; i < 360; i ++) {
       let degreeRad = i  * Math.PI / 180
       x = radiusInner * Math.cos(degreeRad)
       y = radiusInner * Math.sin(degreeRad)
-      pointsArray.push({x: x, y: y})
+      pointsArray.push({x, y})
     }
     return this.pointsArray = pointsArray;
   }
@@ -26,11 +26,11 @@ function Circle(radius, radiusSmall, color) {
 }
 
 function draw(circle, centerX, centerY) {
-  cx.beginPath()
-  cx.strokeStyle = circle.color
+  cx.beginPath();
+  cx.strokeStyle = circle.color;
   cx.translate(centerX, centerY);
   cx.arc(0, 0, circle.radius, 0, 2 * Math.PI, false);
-  cx.stroke()
+  cx.stroke();
 }
 
 const centerX = canvas.width/2
@@ -44,9 +44,14 @@ let middleCircle = new Circle(120, 40, 'white')
 
 draw(bigCircle, centerX, centerY)
 
-let pointsArr = bigCircle.getPointsByCirle();
+const points = bigCircle.getPointsByCirle();
+let i = 0
 
-pointsArr.forEach(point => {
-  console.log(point.x);
-  draw(middleCircle, point.x, point.y)
-})
+setInterval(() => {
+  draw(middleCircle, points[i].x, points[i].y)
+  i++
+  cx.setTransform(1,0,0,1,centerX,centerY);
+  if (i > 359) {
+    i = 0
+  }
+}, 10)
