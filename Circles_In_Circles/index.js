@@ -57,15 +57,21 @@ for (let i = 0; i < points.length; i++) {
 		smallerPoints[i].x +
 		smallPoints[i].x +
 		middlePoints[i].x +
-		points[i].x +
-		centerX
+		points[i].x
 	y =
 		smallerPoints[i].y +
 		smallPoints[i].y +
 		middlePoints[i].y +
-		points[i].y +
-		centerY
+		points[i].y
 	linePointsArray.push({x, y})
+}
+
+for (let i = 1; i < linePointsArray.length; i++) {
+	cx.beginPath()
+	cx.moveTo(linePointsArray[i - 1].x, linePointsArray[i - 1].y)
+	cx.lineTo(linePointsArray[i].x, linePointsArray[i].y)
+	cx.strokeStyle = 'white'
+	cx.stroke()
 }
 
 let i = 0
@@ -102,4 +108,4 @@ const drawing = setInterval(() => {
 	if (i > 719) {
 		i = 0
 	}
-}, 10)
+}, 20)
