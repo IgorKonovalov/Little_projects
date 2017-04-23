@@ -14,7 +14,7 @@ function Circle(radius, radiusSmall, color, velocity = 1) {
     const radiusInner = this.radius - this.radiusSmall;
     let pointsArray = [];
     let x, y;
-    for (let i = 0; i < 360; i++) {
+    for (let i = 0; i < 720; i += 0.5) {
       let degreeRad = i * velocity * Math.PI / 180;
       x = radiusInner * Math.cos(degreeRad);
       y = radiusInner * Math.sin(degreeRad);
@@ -37,15 +37,27 @@ const centerY = canvas.height / 2;
 const radiusBig = 320;
 const radiusMiddle = 120;
 const radiusSmall = 40;
+const velocityDiff = 1;
 
 const bigCircle = new Circle(320, 120, "white", 1);
 const middleCircle = new Circle(120, 40, "white", 2);
 const smallCircle = new Circle(40, 10, "white", 4);
 const smallerCircle = new Circle(10, 2, "lightBlue", 8);
+const mikroCircle = new Circle(2, 0.5, "pink", 16);
+
 
 const points = bigCircle.getPointsByCirle();
 const middlePoints = middleCircle.getPointsByCirle();
 const smallPoints = smallCircle.getPointsByCirle();
+const smallerPoints = smallerCircle.getPointsByCirle();
+
+let linePointsArray = [];
+
+for (let i = 0; i < points.length; i++) {
+  x = smallerPoints[i].x + smallPoints[i].x + middlePoints[i].x + points[i].x + centerX;
+  y = smallerPoints[i].y + smallPoints[i].y + middlePoints[i].y + points[i].y + centerY;
+  linePointsArray.push({ x, y });
+}
 
 let i = 0;
 
@@ -64,8 +76,13 @@ const drawing = setInterval(() => {
     smallPoints[i].x + middlePoints[i].x + points[i].x + centerX,
     smallPoints[i].y + middlePoints[i].y + points[i].y + centerY
   );
+  draw(
+    mikroCircle,
+    smallerPoints[i].x + smallPoints[i].x + middlePoints[i].x + points[i].x + centerX,
+    smallerPoints[i].y + smallPoints[i].y + middlePoints[i].y + points[i].y + centerY
+  )
   i++;
-  if (i > 359) {
+  if (i > 719) {
     i = 0;
   }
 }, 10);
