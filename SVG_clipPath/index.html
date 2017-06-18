@@ -6,20 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SVG clipPath</title>
+  <link rel="stylesheet" href="./main.css">
 </head>
 
 <body>
-  <svg width="681" height="35" viewBox="0 0 681 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="Canvas" transform="translate(379 312)">
-      <g id="Rectangle">
-        <use xlink:href="#path0_fill" transform="translate(-379 -314)" fill="#A145F7" />
-      </g>
-    </g>
+  <svg id="svg" width="711px" height="20px" viewBox="0 0 711 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
-      <path id="path0_fill" d="M 0 0L 681 0L 681 38L 0 38L 0 0Z" />
+      <polygon id="path-1" points="0 18.5117188 711.5 0 711.117188 19.9960937"></polygon>
+      <clipPath id="mask-2">
+        <use xlink:href="#path-1"></use>
+      </clipPath>
     </defs>
+    <g clip-path="url(#mask-2)">
+      <rect id="range" fill="#8100CA" x="-4" y="-6" width="715" height="26"></rect>
+    </g>
   </svg>
 
+
+  <div class="line" id="slider">
+    <div class="circle" id="button"></div>
+  </div>
+  <script src="./index.js"></script>
 </body>
 
 </html>
